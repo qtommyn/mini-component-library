@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 import {
   COLORS,
-  PROGRESS_BAR_WIDTH,
+  PROGRESS_BAR_MAX_WIDTH,
   WRAPPER_SIZES,
   LOADING_BAR_SIZES,
 } from "../../constants";
 import VisuallyHidden from "../VisuallyHidden";
 
 const ProgressBar = ({ value, size }) => {
-  const progress = (value / 100) * PROGRESS_BAR_WIDTH;
-  const isComplete = progress === PROGRESS_BAR_WIDTH;
+  const progress = (value / 100) * PROGRESS_BAR_MAX_WIDTH;
+  const isComplete = progress === PROGRESS_BAR_MAX_WIDTH;
 
   const wrapperStyles = WRAPPER_SIZES[size];
   const loadingBarStyles = LOADING_BAR_SIZES[size];
@@ -19,6 +19,10 @@ const ProgressBar = ({ value, size }) => {
   return (
     <Wrapper style={wrapperStyles}>
       <LoadingBar
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin={0}
+        aria-valuemax={PROGRESS_BAR_MAX_WIDTH}
         style={loadingBarStyles}
         progress={progress}
         isComplete={isComplete}
@@ -30,11 +34,12 @@ const ProgressBar = ({ value, size }) => {
 export default ProgressBar;
 
 const Wrapper = styled.div`
-  background-color: ${COLORS.transparentGray15};
   width: var(--width);
   height: var(--height);
-  border-radius: var(--borderRadius);
   padding: var(--padding);
+  border-radius: var(--borderRadius);
+  box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
+  background-color: ${COLORS.transparentGray15};
 `;
 
 const LoadingBar = styled.div`
